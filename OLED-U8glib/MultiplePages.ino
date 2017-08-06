@@ -3,14 +3,16 @@
 
 U8GLIB_SSD1306_128X64 u8g(U8G_I2C_OPT_NONE|U8G_I2C_OPT_DEV_0);  // I2C / TWI 
 
-int p;
-
 void pageTimeDay();     // Page-1
 void pageTemperature(); // Page-2
 void pageHumidity();    // Page-3
 void pageInfo();        // Page-4
 
-void (*pages[])() = { pageTimeDay, pageTemperature, pageHumidity, pageInfo } ;
+const int pageCount = 4;
+int p;
+void (*pages[pageCount])() = { pageTimeDay, pageTemperature, pageHumidity, pageInfo };
+int duration [pageCount] = { 1000, 1000, 1000, 3000 };
+
 
 void setup() {  
   u8g.setFont(u8g_font_unifont);
@@ -24,9 +26,9 @@ void loop() {
   do {  
     (*pages[p])();
   } while( u8g.nextPage() );
-  delay(1000); 
+  delay(duration[p]);
   p = p+1;
-  if (p == 4)
+  if (p == pageCount)
     p=0;
 }
   
@@ -53,7 +55,7 @@ void pageHumidity() {
 void pageInfo(){
   Serial.write("pageInfo");
   Serial.println();
-  u8g.drawStr( 0, 15, "Cuneyt Aliustaoglu"); 
+  u8g.drawStr( 0, 15, "Cuneyt"); 
+  u8g.drawStr( 0, 30, "Aliustaoglu"); 
   return 0;
 }
-
