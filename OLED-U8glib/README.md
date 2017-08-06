@@ -7,4 +7,4 @@ MultiplePages           : Simple example that outputs a multiple pages to OLED s
 
 Connection for the OLED and Arduino Uno
 
-![OLED connection for U8glib](https://github.com/aliustaoglu/ArduinoOfThings/raw/master/OLED-U8glib/OLED.png)
+![OLED connection for U8glib](https://github.com/aliustaoglu/ArduinoOfThings/raw/master/OLED-U8glib/ArduinoOLED.png)
