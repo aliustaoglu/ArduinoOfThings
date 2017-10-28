@@ -8,11 +8,13 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": false,
                 "path": [
-                    "C:\\Users\\Aliustaoglu\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.3.0\\cores\\esp8266",
+                    "${workspaceRoot}",
+                    "C:\\Users\\Aliustaoglu\\Documents\\Arduino\\libraries\\RTClib",
+                    "C:\\Users\\Aliustaoglu\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.3.0\\libraries\\ESP8266WiFi\\src",
                     "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\libraries\\Wire\\src",
                     "C:\\Users\\Aliustaoglu\\Documents\\Arduino\\libraries\\ESP8266_Oled_Driver_for_SSD1306_display",
-                    "C:\\Users\\Aliustaoglu\\Documents\\Arduino\\libraries\\RTClib",
-                    "${workspaceRoot}"
+                    "C:\\Users\\Aliustaoglu\\Documents\\Arduino\\libraries\\ArduinoJson",
+                    "C:\\Users\\Aliustaoglu\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.3.0\\cores\\esp8266"
                 ]
             },
             "intelliSenseMode": "msvc-x64"
