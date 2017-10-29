@@ -6,11 +6,13 @@
 
 char ssid[] = "SPARK-PLWZV6";
 char password[] = "LKYEM8VVH6";
+String surfPoints[] = {"Maori-Bay", "North-Piha", "Te-Arai-Point", "Raglan-Manu-Bay"};
+int dizi = 0;
 
 WiFiClientSecure client;
 SSD1306 display(0x3c, 0, 2); //0x3C OLED address, GPIO0-> tx, GPIO2-> rx
 
-StaticJsonBuffer<200> jsonBuffer;
+unsigned long previousMillis = 0;
 
 void setup()
 {
@@ -42,6 +44,9 @@ void setup()
   Serial.println("IP address: ");
   IPAddress ip = WiFi.localIP();
   Serial.println(ip);
+
+  //printSurfForPoint(surfPoints[0]);
+  //dizi++;
 }
 
 String getSurfForecast(String surfPoint)
@@ -72,7 +77,11 @@ String getSurfForecast(String surfPoint)
 
     now = millis();
 
-    delay(2000); // delay needed for the client to be available
+    //delay(1000); // delay needed for the client to be available
+    while (!client.available()) {
+      delay(100); // or do other stuff
+    }
+    
     while (client.available())
     {
       char c = client.read();
@@ -104,18 +113,17 @@ String getSurfForecast(String surfPoint)
 
       gotResponse = true;
     }
+    if (gotResponse)
+      return body;
   }
 
-  return body;
+  //return body;
 }
 
-void loop()
+void printSurfForPoint(String surfPoint) 
 {
-  Serial.println("---------");
-  Serial.println("Forecast");
-  String surfPoint = "Maori-Bay";
+  StaticJsonBuffer<200> jsonBuffer;
   String surfJson = getSurfForecast(surfPoint);
-  Serial.println(surfJson);
   JsonObject &root = jsonBuffer.parseObject(surfJson);
   String rating = root["rating"];
   String winds = root["winds"];
@@ -132,6 +140,17 @@ void loop()
   display.drawString(0, 45, "swell    :" + swell);
 
   display.display();
+}
 
-  delay(600000);
+void loop()
+{
+  unsigned long currentMillis = millis();
+
+
+  if (currentMillis - previousMillis >= 10000) {
+    previousMillis = currentMillis;
+    
+    printSurfForPoint(surfPoints[dizi]);
+    dizi = (dizi +1) % 4;
+  }
 }
