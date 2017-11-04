@@ -23,10 +23,9 @@ void setup()
 
   display.init();
   display.flipScreenVertically();
-  display.setFont(ArialMT_Plain_10);
+  display.setTextAlignment(TEXT_ALIGN_LEFT);
+  display.setFont(ArialMT_Plain_16);
 
-  // Set WiFi to station mode and disconnect from an AP if it was Previously
-  // connected
   WiFi.mode(WIFI_STA);
   WiFi.disconnect();
   delay(100);
@@ -34,6 +33,8 @@ void setup()
   Serial.print("Connecting Wifi: ");
   Serial.println(ssid);
   WiFi.begin(ssid, password);
+  display.drawString(0, 0, "Connecting to WIFI");
+  display.drawString(0, 30, "Please wait...");
   while (WiFi.status() != WL_CONNECTED)
   {
     Serial.print(".");
@@ -42,11 +43,12 @@ void setup()
   Serial.println("");
   Serial.println("WiFi connected");
   Serial.println("IP address: ");
+  display.clear();
   IPAddress ip = WiFi.localIP();
   Serial.println(ip);
 
-  //printSurfForPoint(surfPoints[0]);
-  //dizi++;
+  printSurfForPoint(surfPoints[0]);
+  dizi = 1;
 }
 
 String getSurfForecast(String surfPoint)
@@ -77,9 +79,8 @@ String getSurfForecast(String surfPoint)
 
     now = millis();
 
-    //delay(1000); // delay needed for the client to be available
     while (!client.available()) {
-      delay(100); // or do other stuff
+      delay(100);
     }
     
     while (client.available())
@@ -131,13 +132,12 @@ void printSurfForPoint(String surfPoint)
 
   display.clear();
 
-  display.setTextAlignment(TEXT_ALIGN_LEFT);
-  display.setFont(ArialMT_Plain_16);
+  
 
   display.drawString(0, 0, surfPoint);
-  display.drawString(0, 15, "rating    :" + rating);
-  display.drawString(0, 30, "winds   :" + winds);
-  display.drawString(0, 45, "swell    :" + swell);
+  display.drawString(0, 15, "rating    : " + rating);
+  display.drawString(0, 30, "winds   : " + winds);
+  display.drawString(0, 45, "swell    : " + swell);
 
   display.display();
 }
@@ -147,7 +147,7 @@ void loop()
   unsigned long currentMillis = millis();
 
 
-  if (currentMillis - previousMillis >= 10000) {
+  if (currentMillis - previousMillis >= 600000) {
     previousMillis = currentMillis;
     
     printSurfForPoint(surfPoints[dizi]);
